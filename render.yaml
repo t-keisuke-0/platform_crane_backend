@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: platform_crane
+    env: python
+    buildCommand: "pip install pipenv && pipenv install --deploy"
+    startCommand: gunicorn app:app
+    plan: free
