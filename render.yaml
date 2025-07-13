@@ -2,6 +2,6 @@ services:
   - type: web
     name: platform_crane
     env: python
-    buildCommand: "pipenv lock --requirements > requirements.txt　&& pip install -r requirements.txt"
+    buildCommand: "pip install pipenv && pipenv lock --requirements > requirements.txt && pip install -r requirements.txt"
     startCommand: gunicorn app:app
     plan: free
