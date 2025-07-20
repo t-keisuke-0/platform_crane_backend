@@ -18,6 +18,7 @@ erDiagram
         int id PK
         string name
         string character
+        string image_url
         int manufacturer_id FK
         date release_date
     }
