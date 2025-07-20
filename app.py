@@ -2,7 +2,10 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app) # Enable CORS for all routes
+CORS(app, origins=[
+    "http://localhost:3000",
+    "https://platform-crane-frontend.onrender.com"
+]) # 許可するオリジンを指定
 
 @app.route('/')
 def hello():
