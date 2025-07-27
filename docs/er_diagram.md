@@ -66,6 +66,8 @@ erDiagram
         int play_record_id PK,FK
         int likes_count
         int views_count
+        datetime created_at
+        datetime updated_at
     }
 
     users ||--o{ social_accounts : has
@@ -166,8 +168,10 @@ erDiagram
 
 ### play_record_metrics（プレイ記録メトリクス）
 
-| カラム名       | 意味          | PK  | FK  | データ型 | NOT NULL | DEFAULT | UNIQUE |
-| -------------- | ------------- | --- | --- | -------- | -------- | ------- | ------ |
-| play_record_id | プレイ記録 ID | 〇  | 〇  | int      | 〇       |         |        |
-| likes_count    | いいね数      |     |     | int      | 〇       | 0       |        |
-| views_count    | 閲覧数        |     |     | int      | 〇       | 0       |        |
+| カラム名       | 意味             | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
+| -------------- | ---------------- | --- | --- | -------- | -------- | ----------------- | ------ |
+| play_record_id | プレイ記録 ID    | 〇  | 〇  | int      | 〇       |                   |        |
+| likes_count    | いいね数         |     |     | int      | 〇       | 0                 |        |
+| views_count    | 閲覧数           |     |     | int      | 〇       | 0                 |        |
+| created_at     | レコード作成日時 |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| updated_at     | レコード更新日時 |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
