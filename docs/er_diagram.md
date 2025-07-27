@@ -62,22 +62,24 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
-    play_record_metrics {
+    play_record_interactions {
         int play_record_id PK,FK
-        int likes_count
-        int views_count
+        int user_id PK,FK
+        bool like_flag
+        bool view_flag
         datetime created_at
         datetime updated_at
     }
 
     users ||--o{ social_accounts : has
     users ||--o{ play_records : plays
+    users ||--o{ play_record_interactions : interacts
     prizes ||--o{ prize_arrivals : arrives
     prizes ||--o{ play_records : played
     prizes ||--o{ manufacturers : made_by
     stores ||--o{ prize_arrivals : receives
     stores ||--o{ play_records : played_at
-    play_records ||--|| play_record_metrics : has_metrics
+    play_records ||--o{ play_record_interactions : has_interactions
 
 ```
 
@@ -91,7 +93,7 @@ erDiagram
 | ------------------ | -------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
 | id                 | ユーザー ID          | 〇  |     | int      | 〇       | auto_increment    |        |
 | username           | ユーザー名           |     |     | string   | 〇       |                   | 〇     |
-| encrypted_password | 暗号化済みパスワード |     |     | string   | 〇       |                   | 〇     |
+| encrypted_password | 暗号化済みパスワード |     |     | string   |          |                   | 〇     |
 | email              | メールアドレス       |     |     | string   | 〇       |                   |        |
 | icon_url           | アイコン画像 URL     |     |     | string   |          |                   |        |
 | created_at         | レコード作成日時     |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
@@ -166,12 +168,13 @@ erDiagram
 | created_at   | レコード作成日時     |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
 | updated_at   | レコード更新日時     |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
 
-### play_record_metrics（プレイ記録メトリクス）
+### play_record_interactions（プレイ記録インタラクション）
 
-| カラム名       | 意味             | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
-| -------------- | ---------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| play_record_id | プレイ記録 ID    | 〇  | 〇  | int      | 〇       |                   |        |
-| likes_count    | いいね数         |     |     | int      | 〇       | 0                 |        |
-| views_count    | 閲覧数           |     |     | int      | 〇       | 0                 |        |
-| created_at     | レコード作成日時 |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
-| updated_at     | レコード更新日時 |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| カラム名       | 意味                | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
+| -------------- | ------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
+| play_record_id | プレイ記録 ID       | 〇  | 〇  | int      | 〇       |                   |        |
+| user_id        | users テーブルの ID | 〇  | 〇  | int      | 〇       |                   |        |
+| like_flag      | いいねフラグ        |     |     | bool     | 〇       | false             |        |
+| view_flag      | 既読フラグ          |     |     | bool     | 〇       | false             |        |
+| created_at     | レコード作成日時    |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| updated_at     | レコード更新日時    |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
