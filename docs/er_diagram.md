@@ -3,7 +3,7 @@
 ```mermaid
 erDiagram
     users {
-        int id PK "ユーザーID"
+        serial id PK "ユーザーID"
         string username UK "ユーザー名"
         string encrypted_password UK "暗号化済みパスワード SNS認証の場合はNULL想定"
         string email UK "メールアドレス SNS認証の場合はNULL想定"
@@ -12,7 +12,7 @@ erDiagram
         datetime updated_at "更新日時"
     }
     social_accounts {
-        int id PK "ソーシャル認証アカウントID"
+        serial id PK "ソーシャル認証アカウントID"
         int user_id FK,UK "users.id"
         enum provider_name UK "認証プロバイダー名"
         string provider_user_id "プロバイダー側のユーザー ID"
@@ -20,7 +20,7 @@ erDiagram
         datetime updated_at "更新日時"
     }
     prizes {
-        int id PK "プライズ ID"
+        serial id PK "プライズ ID"
         string name UK "プライズ名"
         enum kinds UK "プライズ種類"
         string image_url "画像 URL"
@@ -30,21 +30,21 @@ erDiagram
         datetime updated_at "更新日時"
     }
     manufacturers {
-        int id PK "メーカー ID"
+        serial id PK "メーカー ID"
         string name UK "メーカー名"
         string website "公式サイトURL"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
     stores {
-        int id PK "店舗 ID"
+        serial id PK "店舗 ID"
         string name UK "店舗名"
         string location "住所, 設置場所"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
     prize_arrivals {
-        int id PK "入荷 ID"
+        serial id PK "入荷 ID"
         int prize_id FK,UK "prizes.id"
         int store_id FK,UK "stores.id"
         date arrival_date UK "入荷日"
@@ -52,7 +52,7 @@ erDiagram
         datetime updated_at "更新日時"
     }
     play_records {
-        int id PK "プレイ記録 ID"
+        serial id PK "プレイ記録 ID"
         int user_id FK "users テーブルの ID"
         int prize_id FK "prizes テーブルの ID"
         int store_id FK "stores テーブルの ID"
@@ -65,14 +65,14 @@ erDiagram
         datetime updated_at "更新日時"
     }
     play_record_likes {
-        int id PK "いいね ID"
+        serial id PK "いいね ID"
         int play_record_id FK,UK "play_records.id"
         int user_id FK,UK "users.id"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
     play_record_views {
-        int id PK "既読 ID"
+        serial id PK "既読 ID"
         int play_record_id FK,UK "play_records.id "
         int user_id FK,UK "users.id"
         datetime created_at "作成日時"
@@ -101,7 +101,7 @@ erDiagram
 
 | カラム名           | 意味                 | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | ------------------ | -------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id                 | ユーザー ID          | 〇  |     | int      | 〇       | auto_increment    |        |
+| id                 | ユーザー ID          | 〇  |     | serial   | 〇       | auto_increment    |        |
 | username           | ユーザー名           |     |     | string   | 〇       |                   | 〇     |
 | encrypted_password | 暗号化済みパスワード |     |     | string   |          |                   | 〇     |
 | email              | メールアドレス       |     |     | string   |          |                   | 〇     |
@@ -113,7 +113,7 @@ erDiagram
 
 | カラム名         | 意味                            | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | ---------------- | ------------------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id               | ソーシャル認証アカウント情報 ID | 〇  |     | int      | 〇       |                   |        |
+| id               | ソーシャル認証アカウント情報 ID | 〇  |     | serial   | 〇       |                   |        |
 | user_id          | users テーブルの ID             |     | 〇  | int      | 〇       |                   | 〇     |
 | provider_name    | 認証プロバイダー名（enum 管理） |     |     | enum     | 〇       |                   | 〇     |
 | provider_user_id | プロバイダー側のユーザー ID     |     |     | string   | 〇       |                   |        |
@@ -124,7 +124,7 @@ erDiagram
 
 | カラム名        | 意味                        | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | --------------- | --------------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id              | プライズ ID                 | 〇  |     | int      | 〇       | auto_increment    |        |
+| id              | プライズ ID                 | 〇  |     | serial   | 〇       | auto_increment    |        |
 | name            | プライズ名                  |     |     | string   | 〇       |                   | 〇     |
 | kinds           | プライズ種類（enum 管理）   |     |     | enum     | 〇       |                   | 〇     |
 | image_url       | 画像 URL                    |     |     | string   |          |                   |        |
@@ -137,7 +137,7 @@ erDiagram
 
 | カラム名   | 意味           | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | ---------- | -------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id         | メーカー ID    | 〇  |     | int      | 〇       | auto_increment    |        |
+| id         | メーカー ID    | 〇  |     | serial   | 〇       | auto_increment    |        |
 | name       | メーカー名     |     |     | string   | 〇       |                   | 〇     |
 | website    | 公式サイト URL |     |     | string   |          |                   |        |
 | created_at | 作成日時       |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
@@ -147,7 +147,7 @@ erDiagram
 
 | カラム名   | 意味           | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | ---------- | -------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id         | 店舗 ID        | 〇  |     | int      | 〇       | auto_increment    |        |
+| id         | 店舗 ID        | 〇  |     | serial   | 〇       | auto_increment    |        |
 | name       | 店舗名         |     |     | string   | 〇       |                   | 〇     |
 | location   | 住所・設置場所 |     |     | string   |          |                   |        |
 | created_at | 作成日時       |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
@@ -157,7 +157,7 @@ erDiagram
 
 | カラム名     | 意味                 | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | ------------ | -------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id           | 入荷 ID              | 〇  |     | int      | 〇       |                   |        |
+| id           | 入荷 ID              | 〇  |     | serial   | 〇       |                   |        |
 | prize_id     | prizes テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
 | store_id     | stores テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
 | arrival_date | 入荷日               |     |     | date     |          |                   | 〇     |
@@ -168,7 +168,7 @@ erDiagram
 
 | カラム名     | 意味                 | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | ------------ | -------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id           | プレイ記録 ID        | 〇  |     | int      | 〇       | auto_increment    |        |
+| id           | プレイ記録 ID        | 〇  |     | serial   | 〇       | auto_increment    |        |
 | user_id      | users テーブルの ID  |     | 〇  | int      | 〇       |                   |        |
 | prize_id     | prizes テーブルの ID |     | 〇  | int      | 〇       |                   |        |
 | store_id     | stores テーブルの ID |     | 〇  | int      | 〇       |                   |        |
@@ -184,7 +184,7 @@ erDiagram
 
 | カラム名       | 意味                | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | -------------- | ------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id             | いいね ID           | 〇  |     | int      | 〇       | auto_increment    |        |
+| id             | いいね ID           | 〇  |     | serial   | 〇       | auto_increment    |        |
 | play_record_id | プレイ記録 ID       |     | 〇  | int      | 〇       |                   | 〇     |
 | user_id        | users テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
 | created_at     | 作成日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
@@ -194,7 +194,7 @@ erDiagram
 
 | カラム名       | 意味                | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
 | -------------- | ------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id             | 既読 ID             | 〇  |     | int      | 〇       | auto_increment    |        |
+| id             | 既読 ID             | 〇  |     | serial   | 〇       | auto_increment    |        |
 | play_record_id | プレイ記録 ID       |     | 〇  | int      | 〇       |                   | 〇     |
 | user_id        | users テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
 | created_at     | 作成日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
