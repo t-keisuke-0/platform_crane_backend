@@ -39,15 +39,9 @@ erDiagram
     stores {
         serial id PK "店舗 ID"
         string name UK "店舗名"
-        string location "住所, 設置場所"
-        datetime created_at "作成日時"
-        datetime updated_at "更新日時"
-    }
-    prize_arrivals {
-        serial id PK "入荷 ID"
-        int prize_id FK,UK "prizes.id"
-        int store_id FK,UK "stores.id"
-        date arrival_date UK "入荷日"
+        string prefecture "都道府県"
+        string city "市区町村"
+        string address "番地/建物名など"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
@@ -61,6 +55,7 @@ erDiagram
         bool is_got "獲得したかどうか"
         date play_date "プレイ日"
         text description "説明文"
+        bool is_published "公開済みか"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
@@ -78,18 +73,27 @@ erDiagram
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
+    play_record_images {
+        serial id PK "画像ID"
+        int play_record_id FK,UK "play_records.id"
+        int user_id FK "users.id"
+        string image_url "画像URL"
+        int sort_order "並び順"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
 
     users ||--o{ social_accounts : has
     users ||--o{ play_records : plays
     users ||--o{ play_record_likes : likes
     users ||--o{ play_record_views : views
-    prizes ||--o{ prize_arrivals : arrives
+    users ||--o{ play_record_images : has_images
     prizes ||--o{ play_records : played
     prizes ||--o{ manufacturers : made_by
-    stores ||--o{ prize_arrivals : receives
     stores ||--o{ play_records : played_at
     play_records ||--o{ play_record_likes : has_likes
     play_records ||--o{ play_record_views : has_views
+    play_records ||--o{ play_record_images : has_images
 
 ```
 
@@ -145,24 +149,15 @@ erDiagram
 
 ### stores（店舗情報）
 
-| カラム名   | 意味           | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
-| ---------- | -------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id         | 店舗 ID        | 〇  |     | serial   | 〇       | auto_increment    |        |
-| name       | 店舗名         |     |     | string   | 〇       |                   | 〇     |
-| location   | 住所・設置場所 |     |     | string   |          |                   |        |
-| created_at | 作成日時       |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
-| updated_at | 更新日時       |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
-
-### prize_arrivals（プライズ入荷情報）
-
-| カラム名     | 意味                 | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
-| ------------ | -------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id           | 入荷 ID              | 〇  |     | serial   | 〇       |                   |        |
-| prize_id     | prizes テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
-| store_id     | stores テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
-| arrival_date | 入荷日               |     |     | date     |          |                   | 〇     |
-| created_at   | 作成日時             |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
-| updated_at   | 更新日時             |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| カラム名   | 意味            | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
+| ---------- | --------------- | --- | --- | -------- | -------- | ----------------- | ------ |
+| id         | 店舗 ID         | 〇  |     | serial   | 〇       | auto_increment    |        |
+| name       | 店舗名          |     |     | string   | 〇       |                   | 〇     |
+| prefecture | 都道府県        |     |     | string   | 〇       |                   |        |
+| city       | 市区町村        |     |     | string   | 〇       |                   |        |
+| address    | 番地/建物名など |     |     | string   | 〇       |                   |        |
+| created_at | 作成日時        |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| updated_at | 更新日時        |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
 
 ### play_records（プレイ記録）
 
@@ -177,6 +172,7 @@ erDiagram
 | is_got       | 獲得したかどうか     |     |     | bool     | 〇       | false             |        |
 | play_date    | プレイ日             |     |     | date     | 〇       |                   |        |
 | description  | 説明文               |     |     | text     |          |                   |        |
+| is_published | 公開済みか           |     |     | bool     | 〇       | false             |        |
 | created_at   | 作成日時             |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
 | updated_at   | 更新日時             |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
 
@@ -197,5 +193,17 @@ erDiagram
 | id             | 既読 ID             | 〇  |     | serial   | 〇       | auto_increment    |        |
 | play_record_id | プレイ記録 ID       |     | 〇  | int      | 〇       |                   | 〇     |
 | user_id        | users テーブルの ID |     | 〇  | int      | 〇       |                   | 〇     |
+| created_at     | 作成日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| updated_at     | 更新日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+
+### play_record_images（プレイ記録画像）
+
+| カラム名       | 意味                | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
+| -------------- | ------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
+| id             | 画像 ID             | 〇  |     | serial   | 〇       | auto_increment    |        |
+| play_record_id | プレイ記録 ID       |     | 〇  | int      | 〇       |                   | 〇     |
+| user_id        | users テーブルの ID |     | 〇  | int      | 〇       |                   |        |
+| image_url      | 画像 URL            |     |     | string   | 〇       |                   |        |
+| sort_order     | 並び順              |     |     | int      |          |                   |        |
 | created_at     | 作成日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
 | updated_at     | 更新日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
