@@ -47,9 +47,9 @@ erDiagram
     }
     play_records {
         serial id PK "プレイ記録 ID"
-        int user_id FK "users テーブルの ID"
-        int prize_id FK "prizes テーブルの ID"
-        int store_id FK "stores テーブルの ID"
+        int user_id FK "users.id"
+        int prize_id FK "prizes.id"
+        int store_id FK "stores.id"
         int play_count "プレイ回数"
         int spent_amount "消費金額"
         bool is_got "獲得したかどうか"
@@ -74,9 +74,8 @@ erDiagram
         datetime updated_at "更新日時"
     }
     play_record_images {
-        serial id PK "画像ID"
-        int play_record_id FK,UK "play_records.id"
-        int user_id FK "users.id"
+        serial id PK "画像 ID"
+        int play_record_id FK "play_records.id"
         string image_url "画像URL"
         int sort_order "並び順"
         datetime created_at "作成日時"
@@ -87,7 +86,6 @@ erDiagram
     users ||--o{ play_records : plays
     users ||--o{ play_record_likes : likes
     users ||--o{ play_record_views : views
-    users ||--o{ play_record_images : has_images
     prizes ||--o{ play_records : played
     prizes ||--o{ manufacturers : made_by
     stores ||--o{ play_records : played_at
@@ -198,12 +196,11 @@ erDiagram
 
 ### play_record_images（プレイ記録画像）
 
-| カラム名       | 意味                | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
-| -------------- | ------------------- | --- | --- | -------- | -------- | ----------------- | ------ |
-| id             | 画像 ID             | 〇  |     | serial   | 〇       | auto_increment    |        |
-| play_record_id | プレイ記録 ID       |     | 〇  | int      | 〇       |                   | 〇     |
-| user_id        | users テーブルの ID |     | 〇  | int      | 〇       |                   |        |
-| image_url      | 画像 URL            |     |     | string   | 〇       |                   |        |
-| sort_order     | 並び順              |     |     | int      |          |                   |        |
-| created_at     | 作成日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
-| updated_at     | 更新日時            |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| カラム名       | 意味          | PK  | FK  | データ型 | NOT NULL | DEFAULT           | UNIQUE |
+| -------------- | ------------- | --- | --- | -------- | -------- | ----------------- | ------ |
+| id             | 画像 ID       | 〇  |     | serial   | 〇       | auto_increment    |        |
+| play_record_id | プレイ記録 ID |     | 〇  | int      | 〇       |                   |        |
+| image_url      | 画像 URL      |     |     | string   | 〇       |                   |        |
+| sort_order     | 並び順        |     |     | int      |          |                   |        |
+| created_at     | 作成日時      |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
+| updated_at     | 更新日時      |     |     | datetime | 〇       | CURRENT_TIMESTAMP |        |
