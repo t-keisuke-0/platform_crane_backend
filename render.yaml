@@ -3,5 +3,5 @@ services:
     name: platform_crane
     env: python
     buildCommand: "pip install pipenv && pipenv requirements > requirements.txt && pip install -r requirements.txt"
-    startCommand: gunicorn app:app
+    startCommand: uvicorn app:app --host 0.0.0.0 --port 10000
     plan: free
