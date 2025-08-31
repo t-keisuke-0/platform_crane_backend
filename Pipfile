@@ -8,6 +8,7 @@ fastapi = "*"
 uvicorn = "*"
 
 [dev-packages]
+dotenv = "*"
 
 [requires]
 python_version = "3.12"
