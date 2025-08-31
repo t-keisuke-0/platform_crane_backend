@@ -1,12 +1,13 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "https://platform-crane-frontend.onrender.com"
-]
+if os.environ.get("ENV", "local") == "local":
+    load_dotenv()
+origins = [os.environ.get("CORS_ORIGINS", "")]
 
 app.add_middleware(
     CORSMiddleware,
