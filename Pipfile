@@ -6,12 +6,16 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
+sqlalchemy = "*"
+bcrypt = "4.0.1" # passlibが4.1.xをサポートしていないため、4.0.1に固定
+passlib = "*"
 
 [dev-packages]
 dotenv = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.12"
 
 [scripts]
-start = "uvicorn app:app --host 0.0.0.0 --port 10000"
+start = "uvicorn app.main:app --port 10000 --reload"
